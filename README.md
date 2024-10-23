@@ -1,32 +1,6 @@
 # ISSAI-RAG
 
-To create a proper README file for your project, and provide a tutorial and guide for users, we'll need to include the following sections:
-
-1. **Project Overview**:
-   - A brief description of the project and its purpose.
-   
-2. **Requirements**:
-   - Specify the required Python libraries and versions.
-   
-3. **Installation Instructions**:
-   - Step-by-step guide on how to set up the project environment.
-
-4. **Folder Structure**:
-   - Description of the directory structure that users should set up.
-
-5. **Configuration**:
-   - Information on configuration settings users may need to change in the scripts.
-
-6. **How to Run**:
-   - Instructions on how to execute the scripts.
-
-7. **Example Usage**:
-   - Example commands and expected results.
-
-8. **Troubleshooting**:
-   - Common issues and solutions.
-
-Here is a draft README file based on these sections:
+Here's the updated README file, removing references to the `models/` and `outputs/` directories as per your request:
 
 ---
 
@@ -60,32 +34,26 @@ pip install numpy pandas scikit-learn torch transformers sentence-transformers f
    ```
    project-root/
    ├── data/
-   │   ├── raw/
-   │   ├── processed/
-   ├── models/
-   └── outputs/
+   │   ├── original/     # Original data files (input)
+   ├── embeddings/       # Final embeddings stored as .npy and .csv files
    ```
 
-   - `data/raw`: Store your raw text files here.
-   - `data/processed`: This is where the preprocessed data will be stored.
-   - `models`: Pretrained or fine-tuned models will be stored here.
-   - `outputs`: Store the final embeddings and logs.
+   - `data/original`: Store your raw text files here (e.g., `.txt`, `.csv`).
+   - `embeddings`: After running the embedding script, the `.npy` files (NumPy arrays) and `.csv` files containing embeddings will be stored here.
 
 3. **Install the required Python libraries** (see the requirements section).
 
-4. **Pretrained models**: If you're using pretrained models (e.g., BERT, RoBERTa), download the necessary models from Hugging Face's model hub, such as `sentence-transformers/all-mpnet-base-v2`, and store them in the `models` directory.
+4. **Pretrained models**: The required models will be automatically downloaded from Hugging Face by the `sentence-transformers` library when the script is run. You do not need to manually download models.
 
 ## Configuration
 
-- You may need to change the paths to your data and model directories in both the `NU-builder.py` and `main-nu-embedder.py` scripts.
-- Update the variables:
+- You may need to change the paths to your data and embedding directories in both the `NU-builder.py` and `main-nu-embedder.py` scripts.
+- Update the variables in the scripts as follows:
   ```python
-  data_dir = './data/raw/'
-  processed_dir = './data/processed/'
-  model_dir = './models/'
-  output_dir = './outputs/'
+  data_dir = './data/original/'
+  embeddings_dir = './embeddings/'
   ```
-  to the appropriate paths based on where your data and models are located.
+  to the appropriate paths based on where your data and embeddings are located.
 
 - **Model Selection**: You can change the embedding model by editing the model loading section in `main-nu-embedder.py`. For example:
   ```python
@@ -100,20 +68,20 @@ pip install numpy pandas scikit-learn torch transformers sentence-transformers f
    ```bash
    python NU-builder.py
    ```
-   This will clean, tokenize, and preprocess the data, saving the output to `data/processed/`.
+   This script will clean, tokenize, and preprocess the data.
 
 2. **Embedding Generation**:
    After preprocessing, run `main-nu-embedder.py` to generate embeddings:
    ```bash
    python main-nu-embedder.py
    ```
-   This script will use the pretrained model to generate embeddings for each processed text and store the embeddings in the `outputs/` folder.
+   This script will use the pretrained model to generate embeddings for each processed text and store the embeddings in both `.npy` and `.csv` format in the `embeddings/` folder.
 
 ## Example Usage
 
 To preprocess a dataset and generate embeddings, follow these steps:
 
-1. Place your raw text files in the `data/raw/` folder.
+1. Place your raw text files in the `data/original/` folder.
 2. Run the following commands:
 
    **Step 1**: Preprocess the text data:
@@ -126,7 +94,17 @@ To preprocess a dataset and generate embeddings, follow these steps:
    python main-nu-embedder.py
    ```
 
-3. The embeddings will be saved in the `outputs/` folder as a `.npy` file.
+3. The embeddings will be saved in the `embeddings/` folder as `.npy` files (containing the embedding vectors) and `.csv` files (containing the embeddings with corresponding identifiers).
+
+## Folder Structure After Execution
+
+After running the scripts, your folder structure should look like this:
+   ```
+   project-root/
+   ├── data/
+   │   ├── original/     # Contains original input data files
+   ├── embeddings/       # Contains .npy and .csv files with embeddings
+   ```
 
 ## Troubleshooting
 
@@ -135,4 +113,4 @@ To preprocess a dataset and generate embeddings, follow these steps:
 
 ---
 
-This is a general structure for your README. You may need to refine it further based on specific functionalities or requirements in the project. Let me know if you need any changes or additional guidance!
+Let me know if you need further modifications!
